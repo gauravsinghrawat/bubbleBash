@@ -1,37 +1,76 @@
-## Welcome to GitHub Pages
-
-You can use the [editor on GitHub](https://github.com/gauravsinghrawat/bubbleBash/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/gauravsinghrawat/bubbleBash/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            font-family: cursive;
+        }
+        body{
+            position: absolute;
+            width: 100%;
+            height:  100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #fff;
+        }
+        h1{
+            text-transform: uppercase;
+            font-weight: 800;
+            font-size: 19vw;
+            color: #000;
+            text-shadow: 1px 1px 10px #999;
+        }
+        .wrapper{
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+             background: rgba(0,55,0,.6);
+            perspective: 550px;
+        }
+        .ink{
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border: 10px solid;
+            box-shadow: 2px 2px 10px 10px #009900;
+            border-radius: 50%;
+            transition: 5s;
+            z-index: -1;
+            transform: rotate(20deg);
+        }
+    </style>
+</head>
+<body>
+   
+    <div id="wrapper"><h1>Bubbles</h1></div>
+    
+    <script type="text/javascript">
+        let wrapper = document.getElementById('wrapper');
+        const circle = 50;
+            
+          for(let i=0; i < circle; i++)
+            {
+                let div = document.createElement('div');
+                div.classList = 'ink';
+                wrapper.appendChild(div);
+            }
+        
+        let ink = document.getElementsByClassName('ink');
+       
+           setInterval(function(){ 
+               for(let i=0; i < ink.length; i++){
+                ink[i].style.top = Math.floor(Math.random() * 90) + 'vh';
+                ink[i].style.left = Math.floor(Math.random() * 90) + 'vw';
+            }
+           },2000);  
+    
+    
+        
+    </script>
+</body>
+</html>

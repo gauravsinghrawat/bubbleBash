@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NeonText</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            background: #000;
+        }
+        .container{
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container h1{
+            font-size: 15vw;
+            color: #111;
+            font-family: Trebuchet MS;
+            animation: glow .09s cubic-bezier(.1,.8,.3,.2) infinite;
+           
+        }
+        @keyframes glow{
+           
+            to{
+                 text-shadow:  
+                 0px 10px 10px rgb(255, 245, 245),
+                0px 0px 10px rgb(59, 245, 245),
+                0px 0px 15px rgb(59, 245, 245),
+                0px 0px 20px rgb(59, 245, 245),
+                0px 0px 25px rgb(59, 245, 245),
+                0px 60px 100px rgb(59, 175, 245);
+            }
+        }
+    
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Neon Text</h1>
+    </div>
+</body>
+</html>

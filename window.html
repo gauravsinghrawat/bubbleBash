@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+    <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>snake border css</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+             background: #0c002b;
+         // background: #000;
+            font-family: sans-serif;
+        }
+        body{
+            width: 100vw;
+            height: 100vh;
+        }
+        a{
+            position: absolute;
+            top:50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            text-decoration: none;
+            /*color: #1670f0;*/
+            color: #faabba;
+            padding: 30px 60px;
+            font-size: 30px;
+            font-weight:700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            box-shadow: 0px 0px 50px 20px rgba(20,50,170,.6);
+            text-shadow: 2px 2px 15px #114499;
+            transition: .8s;
+           /* overflow: hidden;*/
+        }
+        a::before{
+            content: '';
+            position: absolute;
+            top:3px;
+            left:3px;
+            bottom:3px;
+            right: 3px;
+            width: 50%;
+            /*background: rgba(255,255,255,0.05);*/
+          background: rgba(255,255,255,0.05);
+            
+        }
+         a::after{
+            content: '';
+            position: absolute;
+            top:3px;
+            bottom:3px;
+            right: 3px;
+            width: 48%;
+            /*background: rgba(255,255,255,0.1);*/
+            background: #6666;
+        }
+        a span:nth-child(1){
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, #0c002b, #1779ff);
+            animation: animate1 .5s alternate infinite;
+           
+        }
+    
+         a span:nth-child(2){
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to left, #0c002b, #1779ff);
+             animation: animate2 .5s alternate infinite;
+        }
+         a span:nth-child(3){
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(to top, #0c002b, #1779ff);
+             animation: animate3 .5s alternate infinite;
+        }
+         a span:nth-child(4){
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(to bottom, #0c002b, #1779ff);
+             animation: animate4 .5s alternate infinite;
+            
+        }
+        @keyframes animate1{
+            0%{
+                transform: translateX(-100%);
+            }
+            100%{
+                 transform: translateX(100%);
+            }
+        }
+          @keyframes animate2{
+            0%{
+                transform: translateX(100%);
+            }
+            100%{
+                 transform: translateX(-100%);
+            }
+        }
+          @keyframes animate3{
+            0%{
+                transform: translateY(100%);
+            }
+            100%{
+                 transform: translateY(-100%);
+            }
+        }
+          @keyframes animate4{
+            0%{
+                transform: translateY(-100%);
+            }
+            100%{
+                 transform: translateY(100%);
+            }
+        }
+        a:hover{
+            transform: perspective(300px) rotateY(45deg) translate(-0%,-10%) skewX(30deg) scale3d(1.5,1.3,.2);
+        }
+    </style>
+</head>
+    <body>
+    <a href="#" id="anchor">WINDOWS
+        <span id="color1"></span>
+        <span id="color2"></span>
+        <span id="color3"></span>
+        <span id="color4"></span>
+    </a>
+    <script type="text/javascript">
+            document.onclick = change;
+        document.dblclick = stop;
+       /* var colors = ['linear-gradient(to left, #f19, #fff',
+                      'linear-gradient(to right, #114400, #faa',
+                      'linear-gradient(to left, #445555, #aa912a',
+                      'linear-gradient(to right, #f14449, #955933'];*/
+        var shadows = ['0px 0px 50px 20px rgba(20,50,170,.6)',
+                       '0px 0px 50px 20px rgba(20,50,170,.6)',
+                       '0px 0px 50px 20px rgba(250,250,10,.6)',
+                      '0px 0px 50px 20px rgba(190,30,20,.6)',
+                      '0px 0px 50px 20px rgba(20,150,70,.6)',
+                      '0px 0px 50px 20px rgba(250,250,250,.6)'];
+     function change(e){
+                /*var span = document.getElementById('color1');
+                var span1 = document.getElementById('color2');
+                var span2 = document.getElementById('color3');
+                var span3 = document.getElementById('color4');*/
+                var anchor = document.getElementById('anchor');
+            
+               /* var color = colors[ Math.floor(Math.random()* colors.length)];*/
+             var shadow = shadows[ Math.floor(Math.random()* shadows.length)];
+           /* span.style.background = color; 
+             span1.style.background = color; 
+             span2.style.background = color; 
+             span3.style.background = color; */
+            anchor.style.boxShadow = shadow;
+            setTimeout(change,5000);
+        }
+    function stop(){
+        clearTimeout();
+    }
+    </script>
+</body>
+</html>

@@ -98,13 +98,17 @@
            
            staticBtn.addEventListener('click',function(){
                 let nav = document.getElementById('nav');
-               nav.style.height = '50px';
-               nav.style.display = 'block';
+               if(nav.style.display = 'none'){
+                  nav.style.height = '100px';
+                   nav.style.display = 'block';
+               }
+               else{
+                   nav.style.display = 'none';
+                    nav.style.height = '0px';
+               }
+                   
            });
-         staticBtn.addEventListener('click',function(){
-                let nav = document.getElementById('nav');
-               nav.style.display = 'none';
-           });
+        
     </script>
 </body>
 </html>

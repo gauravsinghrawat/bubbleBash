@@ -44,13 +44,16 @@
             font-weight: 800;
             font-size: 19vw;
             color: #aaffaa;
-            transform: rotateY(30deg)translateX(200px);
+          
             text-shadow: 10px 5px 1px #666;
             transition: 2s;
              mix-blend-mode: difference;
+            animation: shake 2s linear infinite;
         }
-          body:hover h1{
-            transform: rotateY(-30deg)translateX(-300px) ;
+          @keyframes shake{
+              from{   transform: rotateY(30deg)translateX(200px); }
+              to{  transform: rotateY(-30deg)translateX(-300px) ;  }
+           
            
         }
         .wrapper{

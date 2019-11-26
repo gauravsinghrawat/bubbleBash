@@ -51,8 +51,8 @@
             animation: shake 3s linear infinite;
         }
           @keyframes shake{
-              0%{   transform: rotateY(20deg)translateX(200px); }
-              50%{  transform: rotateY(-20deg)translateX(-300px) ;  }
+              10%{   transform: rotateY(20deg)translateX(200px); }
+              90%{  transform: rotateY(-20deg)translateX(-300px) ;  }
            
            
         }
@@ -107,7 +107,7 @@
                for(let i=0; i < ink.length; i++){
                 ink[i].style.top = Math.floor(Math.random() * 90) + 'vh';
                 ink[i].style.left = Math.floor(Math.random() * 90) + 'vw';
-                ink[i].style.color = colors[(Math.floor(Math.random() * colors.length))];
+                ink[i].style.background = colors[(Math.floor(Math.random() * colors.length))];
             }
            },2000);  
            

@@ -17,6 +17,8 @@
             justify-content: center;
             align-items: center;
             background: #fff;
+             perspective: 1200px;
+            perspective-origin: center;
         }
        
         #nav{
@@ -38,11 +40,18 @@
         #staticBtn{ position:absolute; top:100px; left:0px;}
         #staticBtn a{ padding:5px; background:#f12; color:#fff; text-decoration:none; border-radius: 10px; cursor: pointer;}
         h1{
-            text-transform: uppercase;
+             text-transform: uppercase;
             font-weight: 800;
             font-size: 19vw;
-            color: #000;
-            text-shadow: 1px 1px 10px #999;
+            color: #aaffaa;
+            transform: rotateY(30deg)translateX(200px);
+            text-shadow: 10px 5px 1px #666;
+            transition: 2s;
+             mix-blend-mode: difference;
+        }
+          body:hover h1{
+            transform: rotateY(-30deg)translateX(-300px) ;
+           
         }
         .wrapper{
             position: absolute;

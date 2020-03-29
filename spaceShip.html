@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+    .wrapper{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #111;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        perspective: 50px;
+        perspective-origin: bottom;
+    }
+    .wrapper span{
+        position: absolute;
+        border: 50px solid #fff;
+        border-radius: 50%;
+        box-shadow: 0 0 10px 20px #fff,
+                    inset 10px 10px 10px 20px #222,
+                    inset 5px 5px 10px 30px skyblue;
+        animation: wide 4s ease-in-out infinite;
+    }
+    .wrapper span:nth-child(1){
+        width: 50px;
+        height: 50px;
+        transition-delay: 4s;
+    }
+    .wrapper span:nth-child(2){
+        width: 150px;
+        height: 150px;
+         transition-delay: 3.5s;
+    }
+    .wrapper span:nth-child(3){
+        width: 250px;
+        height: 250px;
+         transition-delay: 3s;
+    }
+    .wrapper span:nth-child(4){
+        width: 350px;
+        height: 350px;
+         transition-delay: 2.5s;
+    }
+    .wrapper span:nth-child(5){
+        width:450px;
+        height:450px;
+         transition-delay: 2s;
+    }
+    .wrapper span:nth-child(6){
+        width: 550px;
+        height: 550px;
+         transition-delay: 1.5s;
+    }
+    .wrapper span:nth-child(7){
+        width: 650px;
+        height: 650px;
+         transition-delay: 1s;
+    }
+    @keyframes wide{
+        
+        0%{
+            
+            transform: rotateX(0deg)scale(1);
+        }
+        80%{
+            
+            transform: rotateX(5deg)scale(3);
+        }
+        
+    }
+    
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</body>
+</html>

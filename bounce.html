@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Purple Rain</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body{ width: 100%; height: 100%; }
+        canvas{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            overflow: hidden;
+            background:'#111';
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    
+    <script type="text/javascript">
+        
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+        canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth;
+        
+        mouse = {
+            x:null,
+            y:null,
+        }
+        canvas.addEventListener('mousemove',(e)=>{
+            mouse.x = e.x;
+            mouse.y = e.y;
+        })
+        
+        let dropsArray;
+        colorArray=['#fff','#f19'];
+
+        class Rain{
+            constructor(x, y, width, height, directionX, directionY, color){
+                this.x = x;
+                this.y = y;
+                this.directionX = directionX;
+                this.directionY = directionY;
+                this.width = width;
+                this.height = height;
+                this.color = color;
+                this.gravity = Math.random();
+                this.friction = .5;
+            }
+            draw(){
+                ctx.beginPath();
+                ctx.shadowColor = '#111';
+                ctx.shadowBlur = 20;
+                ctx.fillStyle = this.color;
+               // ctx.rotate(50 * Math.PI/180);
+               // ctx.fillRect(this.x, this.y, this.width, this.height);
+                ctx.arc(this.x,this.y,60,0,Math.PI*2,false);
+                ctx.fill();
+                ctx.closePath();
+            }
+            update(){
+               /* if(this.y > canvas.height-50 || this.x > canvas.width){
+                    this.directionX = -this.directionX;
+                    this.directionY = -(this.directionY*this.friction)
+                }
+                else{
+                    //this.directionX += 1;
+                    this.directionY += this.gravity;
+                }*/
+                
+                if(this.y < 0 || this.y > canvas.height - 100  ){
+                    
+                    this.directionY = -(5 + this.friction );
+                }
+                else{
+                    this.directionY += this.gravity;
+                }
+                if(this.x < 0 || this.x > canvas.width){
+                     this.directionX = -(this.directionX);
+                }
+               
+                this.x += this.directionX;
+                this.y += this.directionY;
+                
+                this.draw();
+            }
+        }
+        function randonRange(max, min){
+            return (Math.random() * (max - min + 1) + min);
+        }
+        //console.log(randonRange(5,-5));
+        function init(){
+            dropsArray = [];
+            
+            for(let i=0; i< 2;i++){
+                let x = Math.random()*canvas.width;
+                //let y = Math.random()*canvas.height;
+                let y = canvas.height-100;
+                let width = 20;
+                let height = 50;
+                let directionX = randonRange(2,-2);
+                let directionY = randonRange(2,-2);
+                let color = colorArray[Math.floor(Math.random()*colorArray.length)];
+                
+                dropsArray.push(new Rain(x, y , width, height, directionX, directionY, color));
+            }
+        }
+        function collision(){
+            for(let a = 0; a < dropsArray.length; a++ ){
+                for(let b = 0; b < dropsArray.length; b++){
+                         let dx = dropsArray[a].x - dropsArray[b].x;
+                    let dy = dropsArray[a].y - dropsArray[b].y;
+                    let distance  = Math.sqrt(dx*dx + dy*dy);
+                    if(distance < 150){
+                       // console.log(distance    );
+                    }
+                }
+            }
+        }
+        function animate(){
+            //console.log('hi')
+            requestAnimationFrame(animate);
+            ctx.fillStyle = 'rgba(0, 0, 0, .09)';
+             ctx.fillRect(0,0,canvas.width,canvas.height);
+           // ctx.clearRect(0,0,innerWidth,innerHeight);
+
+            dropsArray.forEach(drop=>drop.update());
+           // collision();
+        }
+        
+        init();
+        animate();
+        //resizing window
+            window.addEventListener('resize', function(){
+               canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            
+                init();
+            });
+    </script>
+</body>
+</html>

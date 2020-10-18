@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>KillerGame</title>
+    <style>
+        #canvas{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            overflow: hidden;
+            background: #111;
+        }
+        #score{
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            top:10px;
+            left: 10px;
+            background: #fff;
+            color: #111;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+          #endGame{
+            position: absolute;
+            width: 300px;
+            height: 200px;
+            top:50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            
+background: -webkit-linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c);
+background: -o-linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c);
+background: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c);
+            color: #f12;
+            text-align: center;
+             font-size: 2rem;
+              font-weight: 600;
+              display: none;
+        }
+       
+        #endGame button{
+            width: 100px;
+            height: 50px;
+            border-radius: 20px;
+            background: 'lime';
+            margin-top: 10px;
+            transition: .3s;
+        }
+          #button:hover{
+            background: "red";
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div id="score"><h1></h1></div>
+    <div id="endGame">High Score:<br><span id="high"></span><br><button id="button">Restart</button></div>
+    
+    <script type="text/javascript">
+    const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+         mouse = {
+            x:null,
+            y:null,
+            radius: (canvas.width/70) * (canvas.height/70)
+        }
+    
+        window.addEventListener('click', function(e){
+            mouse.x = e.x;
+            mouse.y = e.y;
+            
+            bullet(e);
+        });
+        
+    
+        let enemyArray = [];
+         let bulletArray = [];
+        let particleArray = [];
+         let enemies;
+        let particles;
+        let score;
+        let Highscore;
+        
+         let x = window.innerWidth/2;
+        let y = window.innerHeight/2;
+         
+        class Gun{
+            constructor(x,y,radius,color){
+                this.x = x;
+                this.y = y;
+                this.radius = radius;
+                this.color = color;
+            }
+            draw(){
+                ctx.beginPath();
+                ctx.fillStyle = this.color;
+                ctx.arc(this.x,this.y,this.radius,0,Math.PI*2,false);
+                ctx.fill();
+                ctx.closePath();
+            }
+            update(){
+            
+                this.draw();
+            }
+        }
+        
+        //creating gun instance
+       // let gun =  new Gun(x,y,20,'#fff');
+        
+        let button = document.getElementById('button');
+        button.addEventListener('click',init);
+         function init(){
+             gun =  new Gun(x,y,20,'#fff');
+             animate();
+             enemyArray = [];
+             bulletArray = [];
+             particleArray = [];
+             enemiesPop();
+             score = 0;
+             setTimeout(()=>{
+                 document.getElementById('endGame').style.display = 'none';
+             },2000);
+        }
+            
+        function bullet(e){
+            const angle = Math.atan2(e.clientY - canvas.height/2,e.clientX - canvas.width/2);
+            const velocity = {
+                x:Math.cos(angle),
+                y:Math.sin(angle)
+            }
+             for(let i=0; i < 1; i++){
+                let x = window.innerWidth/2;
+                let y = window.innerHeight/2;
+                let directionX = velocity.x  * 10;
+                let directionY = velocity.y * 10;
+                let radius = 5;
+                let color = 'blue';
+                
+                bulletArray.push(new Bullet(x,y,directionX,directionY,radius,color));
+            }
+        }
+       
+        
+        class Bullet{
+            constructor(x,y,directionX,directionY,radius,color){
+                this.x = x;
+                this.y = y;
+                this.directionX = directionX;
+                this.directionY = directionY;
+                this.radius = radius;
+                this.color = color;
+            }
+            draw(){
+                ctx.beginPath();
+                ctx.fillStyle = this.color;
+                ctx.arc(this.x,this.y,this.radius,0,Math.PI*2,false);
+                ctx.fill();
+                ctx.closePath();
+            }
+            update(){
+               
+                this.directionX = this.directionX;
+                this.directionY = this.directionY;
+               
+                
+                this.x += this.directionX;
+                this.y += this.directionY;
+                
+                this.draw();
+            }
+        }
+        
+         
+        
+        class Enemy{
+            constructor(x,y,velocity,radius,color){
+                this.x = x;
+                this.y = y;
+                this.velocity = velocity;
+                this.radius = radius;
+                this.color = color;
+            }
+            draw(){
+                ctx.beginPath();
+                ctx.fillStyle = this.color;
+                ctx.arc(this.x,this.y,this.radius,0,Math.PI*2,false);
+                ctx.fill();
+                ctx.closePath();
+            }
+            update(){
+               
+                this.directionX = this.velocity.x;
+                this.directionY = this.velocity.y;
+               
+                
+                this.x += this.directionX;
+                this.y += this.directionY;
+                
+                this.draw();
+            }
+        }
+      
+         class Particle{
+            constructor(x,y,radius,color,velocity){
+                this.x = x;
+                this.y = y;
+                this.radius = radius;
+                this.color = color;
+                 this.velocity = velocity;
+                this.alpha = 1;
+                this.friction = 0.50;
+            }
+            draw(){
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.beginPath();
+                ctx.fillStyle = this.color;
+                ctx.arc(this.x,this.y,this.radius,0,Math.PI*2,false);
+                ctx.fill();
+                ctx.closePath();
+                ctx.restore();
+            }
+            update(){
+               
+                this.directionX = this.velocity.x * this.friction;
+                this.directionY = this.velocity.y * this.friction;
+               this.alpha -= 0.01;
+                
+                this.x += this.directionX;
+                this.y += this.directionY;
+                
+                this.draw();
+            }
+        }
+    
+        function enemiesPop(){
+             setInterval(()=>{
+                let radius = Math.floor(Math.random()*30 +5);
+                    let x; 
+                    let y;
+                    if(Math.random() < 0.5){
+                        x = Math.random() < 0.5 ? 0 - radius : canvas.width + radius;
+                        y = canvas.height + radius;
+                    }
+                    else{
+                        x = Math.random() * canvas.width;
+                        y = Math.random() < 0.5 ? 0 - radius : canvas.height + radius;
+                    }
+                const angle = Math.atan2(canvas.height/2 - y,canvas.width/2 - x);
+                    let velocity = {
+                        x: Math.cos(angle),
+                        y: Math.sin(angle)
+                    }
+                    let color = `hsl(${Math.random()*360},50%,50%)`;
+                
+                enemyArray.push(new Enemy(x,y,velocity,radius,color));
+            },1000)
+        }
+        
+        
+        let animationId;
+        function animate(){
+           
+            animationId =  requestAnimationFrame(animate);
+            ctx.fillStyle = 'rgba(0,0,0,0.1)';
+            ctx.clearRect(0,0,innerWidth,innerHeight);
+            
+            gun.update(); 
+            
+            bulletArray.forEach((bullet)=>{
+                 bullet.update();
+                if(bulletArray.length > 20){
+                    bulletArray = [];
+                }
+            })
+            
+            enemyArray.forEach(enemy=>{
+                     let distance = Math.hypot(gun.x - enemy.x, gun.y - enemy.y);
+                    //end game
+                     if(distance - enemy.radius - gun.radius < 1){
+                         cancelAnimationFrame(animationId);
+                         document.getElementById('high').innerText = score;
+                        document.getElementById('endGame').style.display = 'block';
+                     }
+                })  
+            
+           
+           enemyArray.forEach((enemy,index)=>{
+               enemy.update();
+               bulletArray.forEach((bullet,bulletIndex)=>{
+                    let distance = Math.hypot(bullet.x - enemy.x, bullet.y - enemy.y);
+                   
+            if(distance - enemy.radius - bullet.radius < 1){
+                for(let i=0; i < enemy.radius; i++){
+                    particleArray.push(new Particle(bullet.x,bullet.y,Math.random()*2,enemy.color,{
+                        x: (Math.random() - 0.5)* Math.random() * 8,
+                        y : (Math.random() - 0.5) * Math.random() * 8
+                    }))
+                }
+                  if(enemy.radius - 10 > 10){
+                      enemy.radius -= 5;
+                       setTimeout(()=>{
+                        bulletArray.splice(index,1);
+                   },0)
+                  }
+                else{
+                     setTimeout(()=>{
+                        enemyArray.splice(index,1);
+                        bulletArray.splice(bulletIndex,1);
+                         score++;
+                         document.getElementById('score').innerText = score;
+                   },0)
+                }
+                   }
+               })
+               if(enemyArray.length > 20){
+                    enemyArray = [];
+                }
+           })  
+            particleArray.forEach((particle,index)=>{
+                if(particle.alpha <= 0){
+                    particleArray.splice(index,1);
+                }
+                else{
+                    particle.update();
+                }
+            })
+        }
+        
+        init();
+    
+    
+    </script>
+</body>
+</html>
